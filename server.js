@@ -16,6 +16,8 @@ app.use(express.json());
 
 // Create DB connection
 const db = require('./config/connection');
+
+const dbFunctions = require('./db/dbFunctions')
 /*
 const db = mysql.createConnection(
     {
@@ -29,11 +31,11 @@ const db = mysql.createConnection(
 */
 
   // Example Query database
-/**/ 
+/*
 db.query('SELECT * FROM employee', function (err, results) {
     console.log(results);
   });
-  //*/
+*/
 
 
 //Listen (not sure if needed in this node app)

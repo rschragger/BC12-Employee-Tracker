@@ -1,4 +1,6 @@
 const inquirer = require('inquirer');
+const dbFunctions = require('../db/dbFunctions')
+
 
 //const inquirerRouter = require('./inquirerRoutes/index');
 
@@ -24,9 +26,9 @@ function choosePath() {
         .prompt(question)
         .then((response) => {
             if (response.pathChoice === 'View all departments') {
-                viewAllDepartments();
+                dbFunctions.viewAll('department').then(choosePath());
+                //viewAll('department');
             }
-
 
             else if (response.pathChoice === 'Add a department') {
                 addADepartment();
@@ -41,6 +43,7 @@ function choosePath() {
         .catch((err) => {
             console.log('Error in choosePath()')
             console.log(err)
+            //choosePath()
         })
 };
 
