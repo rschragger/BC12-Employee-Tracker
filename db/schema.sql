@@ -1,4 +1,5 @@
 DROP DATABASE IF EXISTS employee_tracker;
+
 CREATE DATABASE employee_tracker;
 
 USE employee_tracker;
@@ -28,9 +29,9 @@ CREATE TABLE employee (
   REFERENCES role(id)
   ON DELETE SET NULL
   /*,
-  -- FOREIGN KEY (manager_id)
-  -- REFERENCES employee(id)
-  -- ON DELETE SET NULL*/
+  FOREIGN KEY (manager_id)
+  REFERENCES employee(id)
+  ON DELETE SET NULL*/
 );
 
 source seeds.sql;
