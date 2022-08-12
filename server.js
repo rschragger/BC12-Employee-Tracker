@@ -37,6 +37,17 @@ db.query('SELECT * FROM employee', function (err, results) {
   });
 */
 
+// const viewAll2 = async () => {
+//     try {
+//         const allData =  db.query('SELECT * FROM employee');
+//         console.log(allData);
+//         // choosePath()
+//         inquirerRouter();
+//     } catch (error) {
+//         console.log(error);
+//     }
+
+// }
 
 //Listen (not sure if needed in this node app)
 /*

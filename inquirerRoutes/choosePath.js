@@ -1,6 +1,9 @@
 const inquirer = require('inquirer');
 const dbFunctions = require('../db/dbFunctions')
 
+const mysql = require('mysql2');
+const db = require('../config/connection');
+
 
 //const inquirerRouter = require('./inquirerRoutes/index');
 
@@ -26,9 +29,24 @@ function choosePath() {
         .prompt(question)
         .then((response) => {
             if (response.pathChoice === 'View all departments') {
-                dbFunctions.viewAll('department').then(choosePath());
-                //viewAll('department');
-            }
+                 async dbFunctions.viewAll('department').then((viewAllData)=>{
+                    console.log(viewAllData);
+                    console.log('position 3');
+                    choosePath()
+                });
+                console.log('position 1');
+                /*(async () => {
+                    try {
+                        //console.log('position 2')
+                        const deptData = await viewAll2('department');
+                        console.log(deptData)
+                    } catch (error) {
+                        console.log(error)
+                    } finally {
+                        choosePath()
+                    }
+                })();*/
+                }
 
             else if (response.pathChoice === 'Add a department') {
                 addADepartment();
@@ -46,5 +64,23 @@ function choosePath() {
             //choosePath()
         })
 };
+
+const viewAll2 = (table) => {
+    console.log('position 3')
+
+     db.query(`SELECT * FROM ${table}`, function (err, results) {
+        return results;
+      });
+    
+    // try {
+    //     const allData = db.query(`SELECT * FROM ${table}`);
+    //     console.log(allData);
+    //     choosePath()
+    //     //inquirerRouter();
+    // } catch (error) {
+    //     console.log(error);
+    // }
+
+}
 
 module.exports = choosePath;

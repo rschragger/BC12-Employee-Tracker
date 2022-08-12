@@ -9,10 +9,14 @@ const console_table = require('console.table');
 
 const viewAll = async () => {
     try {
-        const allData =  db.query('SELECT * FROM employee');
-        console.log(allData);
+        const allData =  await db.query('SELECT * FROM employee', function(error,result){
+            return result;
+        });
+
+        //const allData =  await db.query('SELECT * FROM employee');
+        //console.log(allData);
         // choosePath()
-        inquirerRouter();
+       
     } catch (error) {
         console.log(error);
     }
