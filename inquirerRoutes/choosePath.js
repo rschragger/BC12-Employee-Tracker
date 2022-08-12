@@ -29,7 +29,7 @@ function choosePath() {
         .prompt(question)
         .then((response) => {
             if (response.pathChoice === 'View all departments') {
-                 async dbFunctions.viewAll('department').then((viewAllData)=>{
+                dbFunctions.viewAll('department').then((viewAllData) => {
                     console.log(viewAllData);
                     console.log('position 3');
                     choosePath()
@@ -46,7 +46,7 @@ function choosePath() {
                         choosePath()
                     }
                 })();*/
-                }
+            }
 
             else if (response.pathChoice === 'Add a department') {
                 addADepartment();
@@ -68,10 +68,10 @@ function choosePath() {
 const viewAll2 = (table) => {
     console.log('position 3')
 
-     db.query(`SELECT * FROM ${table}`, function (err, results) {
+    db.query(`SELECT * FROM ${table}`, function (err, results) {
         return results;
-      });
-    
+    });
+
     // try {
     //     const allData = db.query(`SELECT * FROM ${table}`);
     //     console.log(allData);
