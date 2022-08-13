@@ -30,9 +30,9 @@ async function choosePath() {
 
     const response = await inquirer.prompt(question);
 
-// Function to cover all View All questions
+    // Function to cover all View All questions
     if (response.pathChoice.substring(0, 8) === 'View all') {
-        let thisTable = response.pathChoice.substring(9, response.pathChoice.length-1)
+        let thisTable = response.pathChoice.substring(9, response.pathChoice.length - 1)
 
         const thisData = await viewAll(thisTable);
 
@@ -44,13 +44,20 @@ async function choosePath() {
     if (response.pathChoice.substring(0, 5) === 'Add a') {
         let thisTable = response.pathChoice.substring(6)
 
-        const thisData = await viewAll(thisTable);
+        const thisData = await addARecord(thisTable);
 
         console.log(console.table(thisData));
 
         console.log(sepLine)
     }
 
+    // Quit Function
+    if (response.pathChoice === 'Quit') {
+
+        console.log("\x1b[41m\n\n Thank you for using this product\n\x1b[0m\n ");
+        //  endFunction()
+        process.exit(1);
+    }
     choosePath();
 };
 

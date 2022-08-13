@@ -13,10 +13,46 @@ const console_table = require('console.table');
 const viewAll = async (table) => {
     try {
         const db = await getConnection();
+        switch (table) {
+            case 'employee':
+                let [resultEmp] = await db.query(
+                    `SELECT EM.id, EM.first_name, EM.last_name, RL.title, DE.name as department, RL.salary,  CONCAT(MAN.first_Name, ' ',MAN.last_name)  AS manager
+        FROM employee as EM
+        JOIN role as RL on EM.role_id = RL.id
+        JOIN employee as MAN
+        ON EM.manager_id = MAN.id
+        JOIN department as DE 
+        ON RL.department_id = DE.id
+        ; `);
+                return resultEmp;
+                break;
 
-        const [result] = await db.query(`SELECT * FROM ${table}`);
+            case 'department':
+                let [resultDep] = await db.query(
+                    `SELECT RL.id, RL.title, DE.name as department, RL.salary  
+            FROM role as RL
+            JOIN department as DE 
+            ON RL.department_id = DE.id
+            ;`);
+                return resultDep;
+                break;
 
-        return result;
+            case 'role':
+                let [resultRol] = await db.query(
+                    `SELECT RL.id, RL.title, DE.name as department, RL.salary  
+                        FROM role as RL
+                        JOIN department as DE 
+                        ON RL.department_id = DE.id
+                        ;`);
+                return resultRol;
+                break;
+
+            default:
+                console.log(`Choice ${table} not defined`)
+                break;
+        }
+
+
 
     } catch (error) {
         console.log(error);
@@ -36,19 +72,71 @@ module.exports = {
     addARecord
 }
 
-/* 
-Select employees with joins
+/* VIEW ALL SQL
+View all employees (with joins)
 
+| id | first_name | last_name | title           | department  | salary | manager         |
 
-select EM.id, EM.first_name, EM.last_name, RL.title, RL.salary,  CONCAT(MAN.first_Name, ' ',MAN.last_name)  AS Manager
+SELECT EM.id, EM.first_name, EM.last_name, RL.title, DE.name as department, RL.salary,  CONCAT(MAN.first_Name, ' ',MAN.last_name)  AS manager
 FROM employee as EM
 JOIN role as RL on EM.role_id = RL.id
 JOIN employee as MAN
 ON EM.manager_id = MAN.id
+JOIN department as DE 
+ON RL.department_id = DE.id
 ;    
+
+View All Roles (with joins)
+
+| id | title           | department  | salary |
+
+SELECT RL.id, RL.title, DE.name as department, RL.salary  
+FROM role as RL
+JOIN department as DE 
+ON RL.department_id = DE.id
+;
+
+
+View All departments
+
+| id | department name |
+
+SELECT id, name as 'department name'
+FROM department
+;
+
+
     */
 
+/* ADD A RECORD SQL
+Add a department ----------------------------------------
 
+INSERT INTO department ( name)
+VALUES
+    ( "Logistics")
+   ;
+
+Select * from department;
+
+Add an employee ----------------------------------------
+
+INSERT INTO employee (  first_name , last_name ,role_id , manager_id )
+VALUES
+   ( "Reeve",	"Schragger",	1 ,		1 )
+;
+   ( qFname,	qLname,		get id*1,	get id*2)
+
+
+get id*1 - ask for role, get id -------
+SELECT id FROM role WHERE title LIKE (roleName)
+
+
+get id*2 - ask for manager's name, get id ------
+SELECT id FROM employee WHERE name LIKE (managerName)
+
+
+-----------------------------------------------------------
+*/
 
 
 
