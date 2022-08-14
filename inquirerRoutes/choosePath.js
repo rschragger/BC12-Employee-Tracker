@@ -36,6 +36,7 @@ async function choosePath() {
 
     if (response.pathChoice.substring(0, 5) === 'Add a') {
         let thisTable = response.pathChoice.substring(6) //String after 'add a' or 'add an'
+       // if(thisTable = 'role'){const [ deptList ] = await departmentNameList()}
 
         const thisData = await addARecord(thisTable);
 

@@ -6,7 +6,7 @@ const getConnection = require('../config/connection');
 
 //const inquirerRouter = require('../inquirerRoutes/index');
 const console_table = require('console.table');
-const { chooseAddDept } = require('../inquirerRoutes/addQuestions') ;
+const { chooseAddDept, chooseRole } = require('../inquirerRoutes/addQuestions');
 
 // View all SQL function
 const viewAll = async (table) => {
@@ -49,37 +49,63 @@ const viewAll = async (table) => {
                 break;
         }
     } catch (error) {
-        console.log('viewAll' + error);
+        console.log('viewAll error:' + error);
     }
 }
 
 // Add a Record function
 const addARecord = async (table) => {
-    try{
-    const db = await getConnection();
-    switch (table) {
-        case 'department':
-            const depName = await chooseAddDept();
-            db.query(`INSERT INTO department(name) VALUES (?)`, depName);
-            console.log(`Added ${depName} to the database`);
-            break;
+    try {
+        const db = await getConnection();
+        switch (table) {
+            case 'department':
+                const deptData = await chooseAddDept(); //
+                db.query(`INSERT INTO department(name) VALUES (?)`, deptData.deptName);
+                console.log(`Added ${deptData.deptName} to the database`);
+                break;
+            case 'role':
+                const roleData = await chooseRole();
 
-        default:
-            console.log(`${table} is not defined`);
+                const deptId = await db.query(`SELECT id FROM department WHERE name LIKE ?`
+                    , roleData.deptName);
 
-            break;
+                // console.log('deptId: ' + deptId)
+
+                db.query(`INSERT INTO role (  title , salary , department_id  ) VALUES (?,?,?)`
+                    ,[ roleData.roleTitle, roleData.salary, deptId[0][0].id]);
+
+                console.log(`Added ${roleData.roleTitle} to the database`);
+
+                break;
+
+            default:
+                console.log(`${table} is not defined`);
+
+                break;
+        }
+        //choosePath();
+    } catch (error) {
+        console.log('addARecord error:' + error);
     }
-    //choosePath();
-} catch (error) {
-    console.log('addARecord' + error);
 }
-}
+
+
+// const departmentNameList = async () => {
+//     try {
+//         const db = await getConnection();
+//         let [resultList] = await db.query(`SELECT DISTINCT name FROM department ORDER BY name;`);
+//         return resultList;
+//     } catch (error) {
+//         console.log('departmentNameList' + error);
+//     }
+// }
 
 
 // Module Exports
 module.exports = {
     viewAll,
-    addARecord
+    addARecord,
+    //departmentNameList
 }
 
 /* VIEW ALL SQL
@@ -128,21 +154,39 @@ VALUES
 
 Select * from department;
 
+Add a role----------------------------------------------------
+
+| id | title           | salary | department_id |
++----+-----------------+--------+---------------+
+|  1 | Salesperson     |  60000 |             1 |
+|  2 | Junior Engineer |  75000 |             2 |
+
+INSERT INTO role (  title , salary , department_id  )
+VALUES
+   ( "salesperson",	60000 ,	1  )
+
+   ( Q:Title,	Q:salary,	get id*1)
+
+get id*1 - ask for department, get id -------
+SELECT id FROM department WHERE name LIKE (Q:roleName)
+
+
+
 Add an employee ----------------------------------------
 
 INSERT INTO employee (  first_name , last_name ,role_id , manager_id )
 VALUES
    ( "Reeve",	"Schragger",	1 ,		1 )
 ;
-   ( qFname,	qLname,		get id*1,	get id*2)
+   ( Q:Fname,	Q:Lname,		get id*1,	get id*2)
 
 
 get id*1 - ask for role, get id -------
-SELECT id FROM role WHERE title LIKE (roleName)
+SELECT id FROM role WHERE title LIKE (Q:roleName)
 
 
 get id*2 - ask for manager's name, get id ------
-SELECT id FROM employee WHERE name LIKE (managerName)
+SELECT id FROM employee WHERE name LIKE (Q:managerName)
 
 
 -----------------------------------------------------------
