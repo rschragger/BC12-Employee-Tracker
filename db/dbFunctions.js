@@ -6,7 +6,7 @@ const getConnection = require('../config/connection');
 
 //const inquirerRouter = require('../inquirerRoutes/index');
 const console_table = require('console.table');
-const { chooseAddDept, chooseRole } = require('../inquirerRoutes/addQuestions');
+const { chooseAddDept, chooseRole, chooseEmployee } = require('../inquirerRoutes/addQuestions');
 
 // View all SQL function
 const viewAll = async (table) => {
@@ -72,9 +72,32 @@ const addARecord = async (table) => {
                 // console.log('deptId: ' + deptId)
 
                 db.query(`INSERT INTO role (  title , salary , department_id  ) VALUES (?,?,?)`
-                    ,[ roleData.roleTitle, roleData.salary, deptId[0][0].id]);
+                    , [roleData.roleTitle, roleData.salary, deptId[0][0].id]);
 
                 console.log(`Added ${roleData.roleTitle} to the database`);
+
+                break;
+
+            case 'employee':
+
+
+
+                const empData = await chooseEmployee();
+                var employeeName = empData.firstName + ' ' + empData.lastName;
+
+                const roleId = await db.query(`SELECT id FROM role WHERE title LIKE ?`
+                    , empData.roleTitle);
+
+                const managerId = await db.query(`SELECT id FROM employee WHERE CONCAT(first_name," ",last_name) LIKE ?`
+                    , empData.managerName);
+
+                // console.log('deptId: ' + deptId)
+
+                db.query(`INSERT INTO employee (  first_name , last_name ,role_id , manager_id )
+                VALUES (?,?,?,?)`
+                    , [empData.firstName, empData.lastName, roleId[0][0].id, managerId[0][0].id]);
+
+                console.log(`Added ${employeeName} to the database`);
 
                 break;
 
@@ -105,7 +128,6 @@ const addARecord = async (table) => {
 module.exports = {
     viewAll,
     addARecord,
-    //departmentNameList
 }
 
 /* VIEW ALL SQL

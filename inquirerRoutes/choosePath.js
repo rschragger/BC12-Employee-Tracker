@@ -25,7 +25,7 @@ async function choosePath() {
 
     const response = await inquirer.prompt(question);
 
-    // Function to cover all View All questions
+    // Function to cover the View All questions
     if (response.pathChoice.substring(0, 8) === 'View all') {
         let thisTable = response.pathChoice.substring(9, response.pathChoice.length - 1)
 
@@ -34,9 +34,9 @@ async function choosePath() {
         console.table(thisData);
     }
 
+    // Function to cover the 'add a record' questions
     if (response.pathChoice.substring(0, 5) === 'Add a') {
-        let thisTable = response.pathChoice.substring(6) //String after 'add a' or 'add an'
-       // if(thisTable = 'role'){const [ deptList ] = await departmentNameList()}
+        let thisTable = response.pathChoice.substring(6).trim() //String after 'add a' or 'add an'
 
         const thisData = await addARecord(thisTable);
 

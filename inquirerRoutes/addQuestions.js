@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
 //const { viewAll, addARecord } = require('../db/dbFunctions')
-const { departmentNameList } = require('../db/listsForId');
+const { departmentNameList, roleTitleList ,managerNameList } = require('../db/listsForId');
 
 // add a formatted line to the interface to break out the diplayed information
 //const sepLine = "\x1b[46m\n                 \x1b[0m\n "
@@ -21,7 +21,7 @@ async function chooseAddDept() {
 };
 
 async function chooseRole() {
-   const deptNameList = await departmentNameList() ;
+    const deptNameList = await departmentNameList();
 
     let questions = [{
         message: 'What is the title of the role?',
@@ -49,6 +49,40 @@ async function chooseRole() {
 
 };
 
+async function chooseEmployee() {
+    const roleTitles = await roleTitleList();
+    const managerNames = await managerNameList();
+
+    let questions = [{
+        message: `What is the employee's first name?`,
+        name: 'firstName',
+        type: 'input',
+        validate: (firstName) => { return (!firstName ? false : true) }
+    },
+    {
+        message: `What is the employee's last name?`,
+        name: 'lastName',
+        type: 'input',
+        validate: (lastName) => { return (!lastName ? false : true) }
+    },
+    {
+        message: `What is the employee's role?`,
+        name: 'roleTitle',
+        type: 'list',
+        choices: roleTitles,
+    },
+    {
+        message: `Who is the employee's manager?`,
+        name: 'managerName',
+        type: 'list',
+        choices: managerNames,
+    }];
+    const response = await inquirer.prompt(questions);
+
+    return response
+
+};
+
 
 // const departmentNameList = async () => {
 //     try {
@@ -65,7 +99,8 @@ async function chooseRole() {
 
 module.exports = {
     chooseAddDept,
-    chooseRole
+    chooseRole,
+    chooseEmployee
 
 };
 

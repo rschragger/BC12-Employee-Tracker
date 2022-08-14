@@ -4,18 +4,47 @@ const getConnection = require('../config/connection');
 const departmentNameList = async () => {
     try {
         const db = await getConnection();
-        resultList = await db.query(`SELECT DISTINCT name FROM department ORDER BY name;`);
+        resultList = await db.query(`SELECT DISTINCT name FROM department ORDER BY name`);
         let arr = [];
         resultList[0].forEach(item => {
             arr.push(item.name)
         })        //return resultList;
         return arr
-        //Object.keys(resultList).map(name => obj[name])
-        //return JSON.parse(JSON.stringify(resultList[0]));
+      
     } catch (error) {
-        console.log('departmentNameList' + error);
+        console.log('departmentNameList: ' + error);
+    }
+};
+
+const roleTitleList = async () => {
+    try {
+        const db = await getConnection();
+        resultList = await db.query(`SELECT DISTINCT title FROM role ORDER BY title`);
+        let arr = [];
+        resultList[0].forEach(item => {
+            arr.push(item.title)
+        })        //return resultList;
+        return arr
+      
+    } catch (error) {
+        console.log('roleTitleList: ' + error);
+    }
+};
+
+const managerNameList = async () => {
+    try {
+        const db = await getConnection();
+        resultList = await db.query(`SELECT DISTINCT CONCAT(first_name," ",last_name) as name FROM employee ORDER BY name`);
+        let arr = [];
+        resultList[0].forEach(item => {
+            arr.push(item.name)
+        })        //return resultList;
+        return arr
+      
+    } catch (error) {
+        console.log('managerNameList: ' + error);
     }
 };
 
 
-module.exports = { departmentNameList }
+module.exports = { departmentNameList, roleTitleList, managerNameList }
