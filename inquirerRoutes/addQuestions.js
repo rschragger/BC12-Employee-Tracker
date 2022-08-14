@@ -33,8 +33,14 @@ async function chooseRole() {
         message: 'What is the salary for this role?',
         name: 'salary',
         type: 'input',
-        validate: (salary) => { return (!salary ? false : isNaN(salary) ? false : true) }
-
+        //validate: (salary) => { return (!salary ? false : isNaN(salary) ? false : true) }
+        //https://pakstech.com/blog/inquirer-js/ to make a better error mechanism
+        validate(answer) {
+            if(!answer || isNaN(answer )) {
+                return "Please only give a number!"
+            }else if (answer<= 10000){return "That salary looks a bit low"}
+            return true
+        }
     },
     {
         message: 'Which department does this role belong to?',

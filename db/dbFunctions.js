@@ -1,10 +1,5 @@
-const choosePath = require("../inquirerRoutes/choosePath");
-
-// const mysql = require('mysql2');
 const getConnection = require('../config/connection');
 
-
-//const inquirerRouter = require('../inquirerRoutes/index');
 const console_table = require('console.table');
 const { chooseAddDept, chooseRole, chooseEmployee } = require('../inquirerRoutes/addQuestions');
 
@@ -13,7 +8,7 @@ const viewAll = async (table) => {
     try {
         const db = await getConnection();
         switch (table) {
-            case 'employee':
+            case 'employee': // VIEW ALL EMPLOYEES
                 let [resultEmp] = await db.query(
                     `SELECT EM.id, EM.first_name, EM.last_name, RL.title, DE.name as department, RL.salary,  CONCAT(MAN.first_Name, ' ',MAN.last_name)  AS manager
         FROM employee as EM
@@ -26,7 +21,7 @@ const viewAll = async (table) => {
                 return resultEmp;
                 break;
 
-            case 'department':
+            case 'department':// VIEW ALL DEPARTMENTS
                 let [resultDep] = await db.query(
                     `SELECT id, name as 'department name'
                     FROM department
@@ -34,7 +29,7 @@ const viewAll = async (table) => {
                 return resultDep;
                 break;
 
-            case 'role':
+            case 'role':// VIEW ALL ROLES
                 let [resultRol] = await db.query(
                     `SELECT RL.id, RL.title, DE.name as department, RL.salary  
                         FROM role as RL
@@ -58,18 +53,16 @@ const addARecord = async (table) => {
     try {
         const db = await getConnection();
         switch (table) {
-            case 'department':
-                const deptData = await chooseAddDept(); //
+            case 'department': // ADD A DEPARTMENT 
+                const deptData = await chooseAddDept(); 
                 db.query(`INSERT INTO department(name) VALUES (?)`, deptData.deptName);
                 console.log(`Added ${deptData.deptName} to the database`);
                 break;
-            case 'role':
+            case 'role': // ADD A ROLE
                 const roleData = await chooseRole();
 
                 const deptId = await db.query(`SELECT id FROM department WHERE name LIKE ?`
-                    , roleData.deptName);
-
-                // console.log('deptId: ' + deptId)
+                    , roleData.deptName); //need to get id of the department
 
                 db.query(`INSERT INTO role (  title , salary , department_id  ) VALUES (?,?,?)`
                     , [roleData.roleTitle, roleData.salary, deptId[0][0].id]);
@@ -78,20 +71,16 @@ const addARecord = async (table) => {
 
                 break;
 
-            case 'employee':
-
-
+            case 'employee': // ADD AN EMPLOYEE
 
                 const empData = await chooseEmployee();
                 var employeeName = empData.firstName + ' ' + empData.lastName;
 
                 const roleId = await db.query(`SELECT id FROM role WHERE title LIKE ?`
-                    , empData.roleTitle);
+                    , empData.roleTitle); //need to get id of the role
 
                 const managerId = await db.query(`SELECT id FROM employee WHERE CONCAT(first_name," ",last_name) LIKE ?`
-                    , empData.managerName);
-
-                // console.log('deptId: ' + deptId)
+                    , empData.managerName); //need to get id of the manager
 
                 db.query(`INSERT INTO employee (  first_name , last_name ,role_id , manager_id )
                 VALUES (?,?,?,?)`
@@ -103,25 +92,12 @@ const addARecord = async (table) => {
 
             default:
                 console.log(`${table} is not defined`);
-
                 break;
         }
-        //choosePath();
     } catch (error) {
         console.log('addARecord error:' + error);
     }
 }
-
-
-// const departmentNameList = async () => {
-//     try {
-//         const db = await getConnection();
-//         let [resultList] = await db.query(`SELECT DISTINCT name FROM department ORDER BY name;`);
-//         return resultList;
-//     } catch (error) {
-//         console.log('departmentNameList' + error);
-//     }
-// }
 
 
 // Module Exports

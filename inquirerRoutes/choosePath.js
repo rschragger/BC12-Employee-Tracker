@@ -1,5 +1,7 @@
 const inquirer = require('inquirer');
-const { viewAll, addARecord } = require('../db/dbFunctions')
+const { default: separator } = require('inquirer/lib/objects/separator');
+const { viewAll, addARecord } = require('../db/dbFunctions');
+const { updateARecord } = require('../db/dbUpdates');
 
 // add a formatted line to the interface to break out the diplayed information
 const sepLine = "\x1b[46m\n                 \x1b[0m\n "
@@ -17,9 +19,12 @@ async function choosePath() {
             'Add a department',
             'Add a role',
             'Add an employee',
-            'Update an employee role',
-
-            'Quit'
+            'Make Updates',
+            'Delete items',
+            'Reports',
+            new inquirer.Separator('-- --'),
+            'Quit',
+            new inquirer.Separator('-- --'),
         ],
     }];
 
@@ -40,7 +45,15 @@ async function choosePath() {
 
         const thisData = await addARecord(thisTable);
 
-        console.table(thisData);
+        //console.table(thisData);
+
+    }
+    // Function to cover the 'Update' questions
+    if (response.pathChoice === 'Make Updates') {
+
+        //const thisData = await updateARecord();
+        await updateARecord();
+        //console.table(thisData);
 
     }
 
@@ -51,7 +64,7 @@ async function choosePath() {
         //  endFunction()
         process.exit(1);
     }
-    console.log(sepLine) // this is just to break out where the last function displayed
+    console.log(sepLine) // this is just to break out where the previous function displayed
     choosePath();
 };
 
