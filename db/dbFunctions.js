@@ -4,12 +4,11 @@ const choosePath = require("../inquirerRoutes/choosePath");
 const getConnection = require('../config/connection');
 
 
-const inquirerRouter = require('../inquirerRoutes/index');
+//const inquirerRouter = require('../inquirerRoutes/index');
 const console_table = require('console.table');
+const { chooseAddDept } = require('../inquirerRoutes/addQuestions') ;
 
-
-
-
+// View all SQL function
 const viewAll = async (table) => {
     try {
         const db = await getConnection();
@@ -51,18 +50,31 @@ const viewAll = async (table) => {
                 console.log(`Choice ${table} not defined`)
                 break;
         }
-
-
-
     } catch (error) {
         console.log(error);
     }
-
 }
 
+// Add a Record function
+const addARecord = async (table) => {
+    try{
+    const db = await getConnection();
+    switch (table) {
+        case 'department':
+            const depName = await chooseAddDept();
+            db.query(`INSERT INTO department(name) VALUES (?)`, depName);
+            console.log(`Added ${depName} to the database`);
+            break;
 
-const addARecord = () => {
+        default:
+            console.log(`${table} is not defined`);
 
+            break;
+    }
+    //choosePath();
+} catch (error) {
+    console.log(error);
+}
 }
 
 
