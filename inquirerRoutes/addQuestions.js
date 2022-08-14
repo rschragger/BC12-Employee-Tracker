@@ -3,7 +3,7 @@ const inquirer = require('inquirer');
 
 
 // add a formatted line to the interface to break out the diplayed information
-const sepLine = "\x1b[41m\n                 \x1b[0m\n "
+//const sepLine = "\x1b[46m\n                 \x1b[0m\n "
 
 async function chooseAddDept() {
 

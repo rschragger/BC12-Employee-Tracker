@@ -2,7 +2,7 @@ const inquirer = require('inquirer');
 const { viewAll, addARecord } = require('../db/dbFunctions')
 
 // add a formatted line to the interface to break out the diplayed information
-const sepLine = "\x1b[41m\n                 \x1b[0m\n "
+const sepLine = "\x1b[46m\n                 \x1b[0m\n "
 
 async function choosePath() {
 
@@ -31,9 +31,7 @@ async function choosePath() {
 
         const thisData = await viewAll(thisTable);
 
-        console.log(console.table(thisData));
-
-        console.log(sepLine)
+        console.table(thisData);
     }
 
     if (response.pathChoice.substring(0, 5) === 'Add a') {
@@ -41,9 +39,8 @@ async function choosePath() {
 
         const thisData = await addARecord(thisTable);
 
-        console.log(console.table(thisData));
+        console.table(thisData);
 
-        console.log(sepLine)
     }
 
     // Quit Function
@@ -53,6 +50,7 @@ async function choosePath() {
         //  endFunction()
         process.exit(1);
     }
+    console.log(sepLine) // this is just to break out where the last function displayed
     choosePath();
 };
 

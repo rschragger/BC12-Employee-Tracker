@@ -28,11 +28,9 @@ const viewAll = async (table) => {
 
             case 'department':
                 let [resultDep] = await db.query(
-                    `SELECT RL.id, RL.title, DE.name as department, RL.salary  
-            FROM role as RL
-            JOIN department as DE 
-            ON RL.department_id = DE.id
-            ;`);
+                    `SELECT id, name as 'department name'
+                    FROM department
+                    ;`);
                 return resultDep;
                 break;
 
@@ -51,7 +49,7 @@ const viewAll = async (table) => {
                 break;
         }
     } catch (error) {
-        console.log(error);
+        console.log('viewAll' + error);
     }
 }
 
@@ -73,7 +71,7 @@ const addARecord = async (table) => {
     }
     //choosePath();
 } catch (error) {
-    console.log(error);
+    console.log('addARecord' + error);
 }
 }
 
