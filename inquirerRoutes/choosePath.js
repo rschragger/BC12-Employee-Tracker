@@ -1,11 +1,6 @@
 const inquirer = require('inquirer');
 const { viewAll, addARecord } = require('../db/dbFunctions')
 
-const mysql = require('mysql2');
-const db = require('../config/connection');
-
-
-//const inquirerRouter = require('./inquirerRoutes/index');
 // add a formatted line to the interface to break out the diplayed information
 const sepLine = "\x1b[41m\n                 \x1b[0m\n "
 
@@ -42,7 +37,7 @@ async function choosePath() {
     }
 
     if (response.pathChoice.substring(0, 5) === 'Add a') {
-        let thisTable = response.pathChoice.substring(6)
+        let thisTable = response.pathChoice.substring(6) //String after 'add a' or 'add an'
 
         const thisData = await addARecord(thisTable);
 
