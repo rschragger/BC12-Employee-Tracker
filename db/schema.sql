@@ -34,7 +34,7 @@ CREATE TABLE employee (
   ON DELETE SET NULL*/
 );
 
-source seeds.sql;
+/* source seeds.sql;*/
 
 select * from employee;
 
