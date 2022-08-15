@@ -7,8 +7,6 @@ async function deleteRoute() {
     return deleteReponses
 }
 
-
-
 const chooseDelete = async () => {
     let questions = [{
         message: 'What do you want to delete?',
@@ -21,7 +19,6 @@ const chooseDelete = async () => {
         ]
     }];
     const whichDelete = await inquirer.prompt(questions);
-
     return whichDelete
 };
 

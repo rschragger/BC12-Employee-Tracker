@@ -17,7 +17,7 @@ app.use(express.json());
 // Create DB connection
 const db = require('./config/connection');
 
-const dbFunctions = require('./db/dbFunctions')
+//const dbFunctions = require('./db/dbViewAdd')
 /*
 const db = mysql.createConnection(
     {

@@ -1,8 +1,9 @@
 const inquirer = require('inquirer');
 const { default: separator } = require('inquirer/lib/objects/separator');
-const { viewAll, addARecord } = require('../db/dbFunctions');
+const { viewAll, addARecord } = require('../db/dbViewAdd');
 const { updateARecord } = require('../db/dbUpdates');
 const {deleteARecord}= require('../db/dbDelete')
+const {reportView}= require('../db/dbReport')
 
 // add a formatted line to the interface to break out the diplayed information
 const sepLine = "\x1b[46m\n                 \x1b[0m\n "
@@ -58,7 +59,10 @@ async function choosePath() {
     if (response.pathChoice === 'Delete items') {
         await deleteARecord();
     }
-
+// Function to cover the 'Reports' questions
+    if (response.pathChoice === 'Reports') {
+        await reportView();
+    }
     // Quit Function
     if (response.pathChoice === 'Quit') {
 
