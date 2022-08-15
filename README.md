@@ -26,8 +26,8 @@
 - Download from Github at https://github.com/rschragger/BC12-Employee-Tracker
 - Navigate to the app and enter the command line app
 - To setup SQL enter mysql using `mysql -u root -p` and enter these commands to create database and seed it with demo info
-  - Run `source db/schema.sql`
-  - Run `source db/seeds.sql`
+  - Run `source db/schema.sql;`
+  - Run `source db/seeds.sql;`
   - Run `exit` to leave mysql
 -  Run `npm install` to install all node modules
 -  Run `npm start` to run this application
