@@ -2,7 +2,7 @@ const getConnection = require('../config/connection');
 
 const console_table = require('console.table');
 //const { chooseAddDept, chooseRole, chooseEmployee } = require('../inquirerRoutes/addQuestions');
-const { updateRoute } = require('../inquirerRoutes/UpdateQuestions');
+const { updateRoute } = require('../inquirerRoutes/updateQuestions');
 
 
 // Update a Record function

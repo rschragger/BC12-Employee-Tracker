@@ -2,6 +2,7 @@ const inquirer = require('inquirer');
 const { default: separator } = require('inquirer/lib/objects/separator');
 const { viewAll, addARecord } = require('../db/dbFunctions');
 const { updateARecord } = require('../db/dbUpdates');
+const {deleteARecord}= require('../db/dbDelete')
 
 // add a formatted line to the interface to break out the diplayed information
 const sepLine = "\x1b[46m\n                 \x1b[0m\n "
@@ -50,11 +51,12 @@ async function choosePath() {
     }
     // Function to cover the 'Update' questions
     if (response.pathChoice === 'Make Updates') {
-
-        //const thisData = await updateARecord();
         await updateARecord();
-        //console.table(thisData);
+    }
 
+    // Function to cover the 'Delete' questions
+    if (response.pathChoice === 'Delete items') {
+        await deleteARecord();
     }
 
     // Quit Function

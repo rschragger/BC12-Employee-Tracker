@@ -1,5 +1,5 @@
 const inquirer = require('inquirer');
-const { departmentNameList, roleTitleList, managerNameList } = require('../db/listsForId');
+const { departmentNameList, roleTitleList, employeeNameList } = require('../db/listsForId');
 
 async function updateRoute() {
     //const whatToUpdate = await chooseUpdate() ;
@@ -28,7 +28,7 @@ const updateQuestionList = async () => {
     const whatToUpdate = await chooseUpdate();
 
     //const deptNameList = await departmentNameList();
-    const managerNames = await managerNameList();
+    const managerNames = await employeeNameList();
     const roleTitles = await roleTitleList();
 
 

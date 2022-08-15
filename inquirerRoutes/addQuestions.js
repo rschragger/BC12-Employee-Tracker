@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
 //const { viewAll, addARecord } = require('../db/dbFunctions')
-const { departmentNameList, roleTitleList ,managerNameList } = require('../db/listsForId');
+const { departmentNameList, roleTitleList ,employeeNameList } = require('../db/listsForId');
 
 // add a formatted line to the interface to break out the diplayed information
 //const sepLine = "\x1b[46m\n                 \x1b[0m\n "
@@ -57,7 +57,7 @@ async function chooseRole() {
 
 async function chooseEmployee() {
     const roleTitles = await roleTitleList();
-    const managerNames = await managerNameList();
+    const managerNames = await employeeNameList();
 
     let questions = [{
         message: `What is the employee's first name?`,
@@ -90,23 +90,9 @@ async function chooseEmployee() {
 };
 
 
-// const departmentNameList = async () => {
-//     try {
-//         const db = await getConnection();
-//         let [resultList] = await db.query(`SELECT DISTINCT name FROM department ORDER BY name;`);
-//         return resultList;
-//     } catch (error) {
-//         console.log('departmentNameList' + error);
-//     }
-// }
-
-
-
-
 module.exports = {
     chooseAddDept,
     chooseRole,
     chooseEmployee
-
 };
 

@@ -31,7 +31,8 @@ const roleTitleList = async () => {
     }
 };
 
-const managerNameList = async () => {
+// Employee names also works for Manager names as list is the same (cannot pre-define manager)
+const employeeNameList = async () => {
     try {
         const db = await getConnection();
         resultList = await db.query(`SELECT DISTINCT CONCAT(first_name," ",last_name) as name FROM employee ORDER BY name`);
@@ -42,9 +43,9 @@ const managerNameList = async () => {
         return arr
       
     } catch (error) {
-        console.log('managerNameList: ' + error);
+        console.log('employeeNameList: ' + error);
     }
 };
 
 
-module.exports = { departmentNameList, roleTitleList, managerNameList }
+module.exports = { departmentNameList, roleTitleList, employeeNameList }
