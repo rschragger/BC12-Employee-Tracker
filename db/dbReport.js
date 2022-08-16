@@ -13,17 +13,17 @@ const reportView = async () => {
         const reportReq = await reportRoute();
 switch (reportReq.reportType) {
     case 'View employees by manager':
-        let [empMan] = await db.query(`SELECT CONCAT(MN.first_name," ",MN.last_name) as manager_name,GROUP_CONCAT(EM.first_name," ",EM.last_name SEPARATOR ', ') as employee_names FROM employee as EM  
+        let [empByMan] = await db.query(`SELECT CONCAT(MN.first_name," ",MN.last_name) as manager_name,GROUP_CONCAT(EM.first_name," ",EM.last_name SEPARATOR ', ') as employee_names FROM employee as EM  
         JOIN employee as MN
         ON EM.manager_id = MN.id
         GROUP BY MN.id`);
 
-        console.table(empMan)
+        console.table(empByMan)
         break;
 
 //'View employees by department',
         case 'View employees by department':
-            let [empDept] = await db.query(`SELECT DE.name as department,GROUP_CONCAT(EM.first_name," ",EM.last_name SEPARATOR ', ') as employee_names FROM role as RL  
+            let [empByDept] = await db.query(`SELECT DE.name as department,GROUP_CONCAT(EM.first_name," ",EM.last_name SEPARATOR ', ') as employee_names FROM role as RL  
             JOIN department as DE
             ON DE.id = RL.department_id
             
@@ -32,9 +32,22 @@ switch (reportReq.reportType) {
             
             GROUP BY DE.id`);
     
-            console.table(empDept)
+            console.table(empByDept)
             break;
 //'View the total utilized budget of a department'
+     case 'View the total utilized budget of a department':
+            let [utilizedBudget] = await db.query(`
+            SELECT DE.name as department,sum(salary) as budget FROM role as RL  
+                        JOIN department as DE
+                        ON DE.id = RL.department_id
+                        
+                        JOIN  employee as EM
+                        ON RL.id = EM.role_id
+                        
+                        GROUP BY DE.id`);
+    
+            console.table(utilizedBudget)
+            break;
     default:
         console.log(`Report '${reportReq.reportType}' not available`);
         break;
