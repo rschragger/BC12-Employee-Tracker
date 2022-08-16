@@ -23,7 +23,7 @@
   ## Installation
    
   Installation Instructions:
-- Download from Github at https://github.com/rschragger/BC12-Employee-Tracker
+- Fork/Clone from Github at https://github.com/rschragger/BC12-Employee-Tracker
 - Navigate to the app and enter the command line app
 - To setup SQL enter mysql using `mysql -u root -p` and enter these commands to create database and seed it with demo info
   - Run `source db/schema.sql;`
@@ -38,9 +38,12 @@
   Usage Instructions:
 - You will be prompted with questions
 - navigate through the questions and reply carefully to prompts
+
+Pleasee see screencast at [Video Walkthrough](https://drive.google.com/file/d/1Ehix6zlnvlI1bFrIhIry7VvM52PsCaFw/view)
 </p>
   
   ## Credits
+  I received help from tutor David Impey on strategies for asynchronous functions.
    
  ### Languages
 - JavaScript
